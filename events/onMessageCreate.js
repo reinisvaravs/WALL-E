@@ -12,7 +12,7 @@ import { getConfigValue, incrementStat, logUserTokenUsage } from "../db.js";
 
 const IGNORE_PREFIX = "!";
 const userCooldowns = new Map();
-const COOLDOWN_MS = 5000; // 5 seconds
+const COOLDOWN_MS = 2000; // 2 seconds
 
 export async function onMessageCreate({
   message,
