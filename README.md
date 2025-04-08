@@ -235,6 +235,8 @@ CREATE TABLE bot_stats (
 - Stores results in a PostgreSQL table with `pgvector`
 - Top 4 matched chunks are retrieved using vector similarity for GPT replies
 
+---
+
 ## 🧭 Upcoming Features
 
 🟡 admin dashboard using react, tailwind, axios
