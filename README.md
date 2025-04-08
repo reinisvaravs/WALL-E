@@ -1,11 +1,11 @@
 # 🤖 WALL-E — Discord AI Knowledge Assistant
 
 ![Node.js](https://img.shields.io/badge/Node.js-22.x-brightgreen)
-![License](https://img.shields.io/badge/license-MIT-blue)
-![Powered by](https://img.shields.io/badge/Powered_by-GPT_3.5-orange)
+![License](https://img.shields.io/badge/License-Private-red)
+![Powered by](https://img.shields.io/badge/Powered_by-GPT--4o-blueviolet)
 ![Status](https://img.shields.io/badge/status-live-success)
 
-WALL-E is an intelligent Discord bot built with Node.js and OpenAI. It answers questions using embedded knowledge from structured documents stored in a GitHub repository.
+WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in real-time with contextual knowledge. Each user has their own memory — so conversations stay personal, even in shared channels.
 
 ---
 
@@ -48,7 +48,7 @@ WALL-E is an intelligent Discord bot built with Node.js and OpenAI. It answers q
 
 - ✅ **Memory**
 
-  - Stores the latest 20 messages per user in **PostgreSQL**
+  - Stores the latest 10 messages per user in **PostgreSQL**
   - Maintains contextual replies even across restarts
   - Memory is separated per user, even in shared channels
   - Users can clear their memory using `!reset`
@@ -62,6 +62,7 @@ WALL-E is an intelligent Discord bot built with Node.js and OpenAI. It answers q
   - `!files` — show filenames used in the last GPT reply
   - `!change channel to <channelId>` — move WALL-E to a new channel
   - `!reset <userId>` — reset any user's memory (admin-only)
+  - `!set model <model name>` - changes the gpt model in use from 2 hardcoded options - gpt-3.5-turbo (cheapest) and gpt-4o (latest)
 
 - ✅ **Custom Personality (System Prompt)**
 
@@ -70,15 +71,12 @@ WALL-E is an intelligent Discord bot built with Node.js and OpenAI. It answers q
   - Follows strict coaching role rules
   - Supports edgy humor, sarcasm, and relaxed chat
 
-- ✅ **Web API Access**  
-  `/send-remote` endpoint lets you send messages to Discord via HTTP (with rate limiting + password)
-
 ---
 
 ## 📂 File Structure
 
 ```
-📁 gpt-bot/
+📁 BOT/
 ├── core/
 │   ├── initializeBotData.js        # Startup embedding + auto-refresh
 │   ├── messageMemory.js            # In-memory chat context tracking
@@ -97,7 +95,6 @@ WALL-E is an intelligent Discord bot built with Node.js and OpenAI. It answers q
 ├── server.js                       # Express + Discord init
 ├── index.html                      # Web UI for remote send
 ├── .env                            # Environment variables (do not commit this)
-├── .env.example                    # Template for env variables
 ├── package.json
 ```
 
@@ -105,34 +102,17 @@ WALL-E is an intelligent Discord bot built with Node.js and OpenAI. It answers q
 
 ## 🌐 GitHub Integration
 
-Knowledge is dynamically loaded from:
-
-```
-https://github.com/reinisvaravs/discord-bot-test-info
-```
+Knowledge is dynamically loaded from a private repo, which link is in the .env:
 
 - Files must be at root
 - Only supported file types are processed
-- Uses `GITHUB_TOKEN` to increase API limits (recommended)
+- Uses `GITHUB_TOKEN` to increase API limits and access private repos
 
 ---
 
 ## 🛠️ Getting Started
 
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/reinisvaravs/discord-openai-bot.git
-cd discord-openai-bot
-```
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Create `.env` file
+### A `.env` file is needed
 
 ```env
 DISCORD_TOKEN=your_discord_token
@@ -144,10 +124,86 @@ REMOTE_PASSWORD=your_custom_remote_password
 
 > ⚠️ **Important:** Do not commit `.env` to GitHub. Add it to `.gitignore`.
 
-### 4. Start the bot
+## 🧱 Database Schema
 
-```bash
-npm start
+These are the required PostgreSQL tables used by WALL-E for persistent memory, embedding storage, and usage tracking. Run them in order after creating your NeonDB instance.
+
+> 💡 **Make sure `pgvector` is enabled first**  
+> Run this before creating any tables:
+>
+> ```sql
+> CREATE EXTENSION IF NOT EXISTS vector;
+> ```
+
+---
+
+### 1. `bot_config`
+
+Stores general configuration as key-value pairs.
+
+```sql
+CREATE TABLE bot_config (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);
+```
+
+---
+
+### 2. `file_hashes`
+
+Tracks the last known hash of each embedded file to avoid redundant processing.
+
+```sql
+CREATE TABLE file_hashes (
+  file_name TEXT PRIMARY KEY,
+  hash TEXT NOT NULL
+);
+```
+
+---
+
+### 3. `vectors`
+
+Stores chunked content embeddings for vector search.
+
+```sql
+CREATE TABLE vectors (
+  id SERIAL PRIMARY KEY,
+  file_name TEXT NOT NULL,
+  chunk TEXT NOT NULL,
+  embedding vector(1536),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+---
+
+### 4. `user_memory`
+
+Stores message memory for each user (used in chat context).
+
+```sql
+CREATE TABLE user_memory (
+  user_id TEXT PRIMARY KEY,
+  memory JSONB
+);
+```
+
+---
+
+### 5. `user_logs`
+
+Tracks token usage per model and user (useful for analytics or billing).
+
+```sql
+CREATE TABLE user_logs (
+  id SERIAL PRIMARY KEY,
+  user_id TEXT,
+  model TEXT,
+  tokens INTEGER,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
 
 ---
@@ -189,7 +245,3 @@ Latvia 🇱🇻 | Full-stack Developer
 🔗 [GitHub](https://github.com/reinisvaravs)
 
 ---
-
-## 📜 License
-
-This project is MIT licensed.
