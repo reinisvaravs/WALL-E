@@ -58,12 +58,18 @@ WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in
 
   - `!bot on` / `!bot off` — toggle response mode
   - `!refresh` — manually re-embed knowledge from GitHub
-  - `!source` — show which embedded chunks were used in the last GPT answer
-  - `!files` — show filenames used in the last GPT reply
   - `!change channel to <channelId>` — move WALL-E to a new channel
   - `!reset <userId>` — reset any user's memory (admin-only)
-  - `!set model <model name>` - changes the gpt model in use from 2 hardcoded options - gpt-3.5-turbo (cheapest) and gpt-4o (latest)
-  - `!sys` — check system usage logs
+  - `!set model <model name>` — switch between GPT models (`gpt-3.5-turbo`, `gpt-4o`)
+  - `!sys` — check system resource usage (CPU, memory, load)
+  - `!usage` — view total messages sent and token usage per model
+  - `!usage reset` — reset all usage and token logs
+
+- ✅ **User Controls (prefix-based)**
+
+  - `!reset` — reset your own memory
+  - `!source` — show which embedded chunks were used in the last GPT reply
+  - `!files` — list filenames used in the last GPT reply
 
 - ✅ **Custom Personality (System Prompt)**
 
@@ -257,4 +263,3 @@ Latvia 🇱🇻 | Full-stack Developer
 🔗 [GitHub](https://github.com/reinisvaravs)
 
 ---
-```
