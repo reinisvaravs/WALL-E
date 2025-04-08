@@ -21,10 +21,8 @@ WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in
 - [Getting Started](#-getting-started)
 - [How Knowledge Embedding Works](#-how-knowledge-embedding-works)
 - [Testing](#-testing)
-- [Upcoming Features](#-upcoming-features)
 - [Built With](#-built-with)
 - [Author](#-author)
-- [License](#-license)
 
 ---
 
@@ -234,12 +232,6 @@ CREATE TABLE bot_stats (
 - Embeds changed chunks using `text-embedding-3-small`
 - Stores results in a PostgreSQL table with `pgvector`
 - Top 4 matched chunks are retrieved using vector similarity for GPT replies
-
----
-
-## 🧭 Upcoming Features
-
-🟡 admin dashboard using react, tailwind, axios
 
 ---
 
