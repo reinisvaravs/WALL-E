@@ -126,7 +126,7 @@ DISCORD_TOKEN=your_discord_token
 OPENAI_KEY=your_openai_key
 GITHUB_TOKEN=your_github_token
 DATABASE_URL=postgres://username:password@host:port/db
-REMOTE_PASSWORD=your_custom_remote_password
+RENDER=true
 ```
 
 > ⚠️ **Important:** Do not commit `.env` to GitHub. Add it to `.gitignore`.
