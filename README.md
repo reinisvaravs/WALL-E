@@ -63,6 +63,7 @@ WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in
   - `!change channel to <channelId>` — move WALL-E to a new channel
   - `!reset <userId>` — reset any user's memory (admin-only)
   - `!set model <model name>` - changes the gpt model in use from 2 hardcoded options - gpt-3.5-turbo (cheapest) and gpt-4o (latest)
+  - `!sys` — check system usage logs
 
 - ✅ **Custom Personality (System Prompt)**
 
@@ -208,6 +209,17 @@ CREATE TABLE user_logs (
 
 ---
 
+### 5. `bot_stats`
+
+```sql
+CREATE TABLE bot_stats (
+  stat_key TEXT PRIMARY KEY,
+  value INTEGER
+);
+```
+
+---
+
 ## 🧠 How Knowledge Embedding Works
 
 - At startup, WALL-E fetches all files from GitHub
@@ -239,9 +251,10 @@ CREATE TABLE user_logs (
 
 ## 🧠 Author
 
-**Reinis Roberts Vāravs**  
-Latvia 🇱🇻 | Full-stack Developer  
+**Reinis Roberts Vāravs**
+Latvia 🇱🇻 | Full-stack Developer
 🌐 [Portfolio site](https://reinisvaravs.com)
 🔗 [GitHub](https://github.com/reinisvaravs)
 
 ---
+```
