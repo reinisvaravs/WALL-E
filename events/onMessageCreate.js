@@ -25,28 +25,15 @@ export async function onMessageCreate({
   if (message.author.bot) return;
 
   const now = Date.now();
-  const userId = message.author.id;
+  const lastMessage = userCooldowns.get(message.author.id);
 
-  const lastCooldown = userCooldowns.get(userId);
-
-  if (lastCooldown && now - lastCooldown.timestamp < COOLDOWN_MS) {
-    if (!lastCooldown.warned) {
-      userCooldowns.set(userId, {
-        timestamp: lastCooldown.timestamp,
-        warned: true,
-      });
-      await message.reply(
-        "⏳ Slow down! Please wait a few seconds before sending another message."
-      );
-    }
-    return; // block all other logic
+  if (lastMessage && now - lastMessage < COOLDOWN_MS) {
+    return message.reply(
+      "⏳ Slow down!"
+    );
   }
 
-  // Set fresh cooldown
-  userCooldowns.set(userId, {
-    timestamp: now,
-    warned: false,
-  });
+  userCooldowns.set(message.author.id, now);
 
   // stop if not in the bot channel
   if (allowedChannelIdRef.value !== message.channelId) return;

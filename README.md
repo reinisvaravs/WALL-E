@@ -73,7 +73,6 @@ WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in
 
   - Conversational tone
   - Does not act like a model or support bot
-  - Follows strict coaching role rules
   - Supports edgy humor, sarcasm, and relaxed chat
 
 ---
@@ -81,7 +80,7 @@ WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in
 ## 📂 File Structure
 
 ```
-📁 BOT/
+📁 WALL-E/
 ├── core/
 │   ├── initializeBotData.js        # Startup embedding + auto-refresh
 │   ├── messageMemory.js            # In-memory chat context tracking
@@ -231,7 +230,7 @@ CREATE TABLE bot_stats (
 - Skips unchanged files by checking their SHA256 hash
 - Embeds changed chunks using `text-embedding-3-small`
 - Stores results in a PostgreSQL table with `pgvector`
-- Top 4 matched chunks are retrieved using vector similarity for GPT replies
+- Top matched chunks are retrieved using vector similarity for GPT replies
 
 ---
 
