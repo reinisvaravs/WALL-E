@@ -13,6 +13,63 @@ export async function handleAdminCommands(
 ) {
   const content = message.content.trim();
 
+  if (content === "!usage") {
+    if (!hasAllowedRole(message)) return;
+
+    try {
+      const tokenResult = await pool.query(`
+        SELECT model, SUM(tokens) AS total_tokens
+        FROM user_logs
+        GROUP BY model
+      `);
+      const msgCountResult = await pool.query(`
+        SELECT value FROM bot_stats WHERE stat_key = 'messages_sent'
+      `);
+
+      const totalMessages = msgCountResult.rows[0]?.value || 0;
+
+      let replyText = `📊 **Bot Usage Summary**\n`;
+      replyText += `Messages Sent: **${totalMessages}**\n`;
+      replyText += `Token Usage by Model:\n`;
+
+      for (const row of tokenResult.rows) {
+        replyText += `• ${row.model}: **${row.total_tokens}** tokens\n`;
+      }
+
+      await message.reply(replyText);
+      return true;
+    } catch (err) {
+      console.error("❌ Failed to fetch usage summary:", err);
+      await message.reply("❌ Error fetching usage data.");
+      return true;
+    }
+  }
+
+  if (content === "!usage reset") {
+    if (!hasAllowedRole(message)) return;
+
+    try {
+      // Clear token usage
+      await pool.query(`DELETE FROM user_logs`);
+
+      // Reset message counter
+      await pool.query(`
+        UPDATE bot_stats
+        SET value = 0
+        WHERE stat_key = 'messages_sent'
+      `);
+
+      await message.reply(
+        "✅ Usage stats and message counter have been reset."
+      );
+      return true;
+    } catch (err) {
+      console.error("❌ Failed to reset usage stats:", err);
+      await message.reply("❌ Error resetting usage data.");
+      return true;
+    }
+  }
+
   if (content === "!sys") {
     if (!hasAllowedRole(message)) return;
 
