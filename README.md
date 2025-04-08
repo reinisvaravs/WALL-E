@@ -209,7 +209,7 @@ CREATE TABLE user_logs (
 
 ---
 
-### 5. `bot_stats`
+### 6. `bot_stats`
 
 ```sql
 CREATE TABLE bot_stats (
