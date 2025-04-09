@@ -12,6 +12,7 @@ import { getConfigValue, incrementStat, logUserTokenUsage } from "../db.js";
 
 const IGNORE_PREFIX = "!";
 const userCooldowns = new Map();
+const warnedUsers = new Set();
 const COOLDOWN_MS = 2000; // 2 seconds
 
 export async function onMessageCreate({
@@ -24,19 +25,22 @@ export async function onMessageCreate({
 }) {
   if (message.author.bot) return;
 
+  // stop if not in the bot channel
+  if (allowedChannelIdRef.value !== message.channelId) return;
+
+  // prevent spam
   const now = Date.now();
   const lastMessage = userCooldowns.get(message.author.id);
 
   if (lastMessage && now - lastMessage < COOLDOWN_MS) {
-    return message.reply(
-      "⏳ Slow down!"
-    );
+    if (!warnedUsers.has(message.author.id)) {
+      warnedUsers.add(message.author.id);
+      setTimeout(() => warnedUsers.delete(message.author.id), COOLDOWN_MS);
+      return message.reply(`⏳ Slow down!`);
+    }
+    return; // silently ignore if already warned
   }
-
   userCooldowns.set(message.author.id, now);
-
-  // stop if not in the bot channel
-  if (allowedChannelIdRef.value !== message.channelId) return;
 
   // exec admin command
   const wasAdminCommand = await handleAdminCommands(
