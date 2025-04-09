@@ -2,6 +2,7 @@ import pool, { setConfigValue } from "../db.js";
 import { loadAndEmbedKnowledge } from "../knowledgeEmbedder.js";
 import { resetHistory } from "../core/messageMemory.js";
 import { hasAllowedRole } from "../core/permissions.js";
+import { refreshSystemPrompt } from "../core/systemPromptCache.js";
 import os from "os";
 
 export async function handleAdminCommands(
@@ -166,9 +167,11 @@ export async function handleAdminCommands(
 
     console.log("Checking for updated GitHub files...");
 
+    await refreshSystemPrompt(); // load latest system prompt
+
     loadAndEmbedKnowledge()
       .then(() => {
-        message.reply("🔁 Knowledge refreshed.");
+        message.reply("🔁 Knowledge and system prompt refreshed.");
       })
       .catch((err) => {
         console.error("❌ Error during refresh:", err);

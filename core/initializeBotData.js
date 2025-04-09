@@ -1,7 +1,9 @@
 import { loadAndEmbedKnowledge } from "../knowledgeEmbedder.js";
 import { getChannelId } from "../db.js";
+import { refreshSystemPrompt } from "./systemPromptCache.js";
 
 export async function initializeBotData(client, safeMode) {
+  await refreshSystemPrompt(); // load prompt at startup
   const success = await loadAndEmbedKnowledge();
 
   if (success) {
@@ -12,12 +14,10 @@ export async function initializeBotData(client, safeMode) {
     }
   }
 
-  let githubCheckCounter = 0;
-
-  // check knowledge for changes
+  // auto-refresh knowledge + prompt
   setInterval(async () => {
-    githubCheckCounter += 1;
+    console.log("🔄 Auto-refreshing GitHub knowledge + system prompt...");
     await loadAndEmbedKnowledge();
-    console.log(`[github check #${githubCheckCounter}]`);
-  }, 10 * 60 * 1000); // 10min interval
+    await refreshSystemPrompt();
+  }, 10 * 60 * 1000); // 10 minutes
 }
