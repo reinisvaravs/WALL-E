@@ -8,7 +8,7 @@ export async function initializeBotData(client, safeMode) {
     const channelId = await getChannelId(`${safeMode}_channel_id`);
     const channel = await client.channels.fetch(channelId);
     if (channel) {
-      channel.send("WALL-E is now online. 🤖");
+      channel.send("I’m now online. 🤖");
     }
   }
 
