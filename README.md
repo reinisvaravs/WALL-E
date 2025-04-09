@@ -4,6 +4,8 @@
 ![License](https://img.shields.io/badge/License-Private-red)
 ![Powered by](https://img.shields.io/badge/Powered_by-GPT--4o-blueviolet)
 ![Status](https://img.shields.io/badge/status-live-success)
+![RAG-Powered](https://img.shields.io/badge/RAG-Powered-blueviolet)
+![Embedding](https://img.shields.io/badge/Embedding-pgvector-lightblue)
 
 WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in real-time with contextual knowledge. Each user has their own memory — so conversations stay personal, even in shared channels.
 
@@ -19,8 +21,9 @@ WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in
 - [File Structure](#-file-structure)
 - [GitHub Integration](#-github-integration)
 - [Getting Started](#-getting-started)
+- [Database Schema](#-database-schema)
+- [RAG (Retrieval-Augmented Generation)](#-rag-retrieval-augmented-generation)
 - [How Knowledge Embedding Works](#-how-knowledge-embedding-works)
-- [Testing](#-testing)
 - [Built With](#-built-with)
 - [Author](#-author)
 
@@ -224,6 +227,20 @@ CREATE TABLE bot_stats (
   value INTEGER
 );
 ```
+
+---
+
+## 🧠 RAG (Retrieval-Augmented Generation)
+
+WALL-E uses a **Retrieval-Augmented Generation (RAG)** architecture to deliver highly relevant and context-aware answers:
+
+- 📄 **Document Ingestion**: Files from a GitHub repository are parsed and chunked for semantic relevance.
+- 🧬 **Embedding**: Chunks are embedded using OpenAI’s `text-embedding-3-small` model and stored in PostgreSQL with pgvector.
+- 🔍 **Retrieval**: When a user sends a message, WALL-E retrieves the most relevant chunks from the vector database using similarity search.
+- 💬 **Generation**: Retrieved chunks are included in the GPT prompt to ground the response in accurate knowledge.
+- ⚙️ **Efficiency**: Re-embedding only occurs when file content changes (via SHA256 hash check), optimizing both speed and token costs.
+
+This setup ensures the bot answers with **real knowledge**, not hallucinated guesses — perfect for technical documentation, FAQs, or internal tools.
 
 ---
 
