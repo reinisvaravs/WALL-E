@@ -69,11 +69,12 @@ WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in
   - `!source` — show which embedded chunks were used in the last GPT reply
   - `!files` — list filenames used in the last GPT reply
 
-- ✅ **Custom Personality (System Prompt)**
-
-  - Conversational tone
-  - Does not act like a model or support bot
-  - Supports edgy humor, sarcasm, and relaxed chat
+- ✅ **System Prompt (Custom Personality)**
+  - Stored as `system-prompt.txt` inside `walle-config/` in your GitHub knowledge repo
+  - Fetched via GitHub API and decoded from base64
+  - Auto-refreshes every 10 min + manual `!refresh`
+  - Fully editable via GitHub — no restart or redeploy needed
+  - Guides tone, behavior, and assistant rules (not part of embedded knowledge)
 
 ---
 
@@ -106,11 +107,12 @@ WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in
 
 ## 🌐 GitHub Integration
 
-Knowledge is dynamically loaded from a private repo, which link is in the .env:
-
-- Files must be at root
-- Only supported file types are processed
-- Uses `GITHUB_TOKEN` to increase API limits and access private repos
+- WALL-E pulls both **knowledge files** and the **system prompt** from a private GitHub repo
+- Files in the **repo root** are embedded into vector memory if supported
+- The file `walle-config/system-prompt.txt` defines the bot’s tone, rules, and behavior
+  - It is fetched via GitHub API and decoded at runtime
+  - Not part of embedded knowledge — used only as system instructions
+  - Auto-refreshes every 10 minutes, or immediately via `!refresh`
 
 ---
 
@@ -122,6 +124,8 @@ Knowledge is dynamically loaded from a private repo, which link is in the .env:
 DISCORD_TOKEN=your_discord_token
 OPENAI_KEY=your_openai_key
 GITHUB_TOKEN=your_github_token
+REPO_API_URL=https://api.github.com/repos/reinisvaravs/discord-bot-test-info/contents/
+PROMPT_PATH_URL=https://api.github.com/repos/reinisvaravs/wall-e-info/contents/walle-config/system-prompt.txt
 DATABASE_URL=postgres://username:password@host:port/db
 RENDER=true
 ```
