@@ -1,18 +1,18 @@
 import { loadAndEmbedKnowledge } from "../knowledgeEmbedder.js";
-import { getChannelId } from "../db.js";
+// import { getChannelId } from "../db.js";
 import { refreshSystemPrompt } from "./systemPromptCache.js";
 
-export async function initializeBotData(client, safeMode) {
+export async function initializeBotData() { // add (client, safeMode) for commented code under
   await refreshSystemPrompt(); // load prompt at startup
-  const success = await loadAndEmbedKnowledge();
+  await loadAndEmbedKnowledge(); // add const success for the code under
 
-  if (success) {
-    const channelId = await getChannelId(`${safeMode}_channel_id`);
-    const channel = await client.channels.fetch(channelId);
-    if (channel) {
-      channel.send("I’m now online. 🤖");
-    }
-  }
+  // if (success) {
+  //   const channelId = await getChannelId(`${safeMode}_channel_id`);
+  //   const channel = await client.channels.fetch(channelId);
+  //   if (channel) {
+  //     channel.send("I’m now online. 🤖");
+  //   }
+  // }
 
   // auto-refresh knowledge + prompt
   setInterval(async () => {

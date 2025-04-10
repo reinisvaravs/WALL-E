@@ -83,11 +83,11 @@ export async function handleAdminCommands(
     const loadAvg = os.loadavg()[0]; // 1 min avg
 
     await message.reply(
-      `📊 **System Stats (Professional Tier):**\n` +
+      `📊 **System Stats (Render Free/Starter):**\n` +
         `🧠 Memory: ${memoryMB} MB (normal < 300 MB)\n` +
-        `🔧 CPU Time (User): ${userCPU.toFixed(2)} ms (normal < 1500 ms)\n` +
-        `🛠 CPU Time (System): ${systemCPU.toFixed(2)} ms (normal < 600 ms)\n` +
-        `⚙️ CPU Load (1min): ${loadAvg.toFixed(2)} (normal < 2.25)`
+        `🔧 CPU Time (User): ${userCPU.toFixed(2)} ms (normal < 1000 ms)\n` +
+        `🛠 CPU Time (System): ${systemCPU.toFixed(2)} ms (normal < 400 ms)\n` +
+        `⚙️ CPU Load (1min): ${loadAvg.toFixed(2)} (normal < 1.00)`
     );
 
     return true;
