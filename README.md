@@ -1,7 +1,7 @@
 # 🤖 WALL-E — Discord AI Knowledge Assistant
 
 ![Node.js](https://img.shields.io/badge/Node.js-22.x-brightgreen)
-![License](https://img.shields.io/badge/License-Private-red)
+![License](https://img.shields.io/badge/License-MIT-green)
 ![Powered by](https://img.shields.io/badge/Powered_by-GPT--4o-blueviolet)
 ![Status](https://img.shields.io/badge/status-live-success)
 ![RAG-Powered](https://img.shields.io/badge/RAG-Powered-blueviolet)
@@ -26,6 +26,7 @@ WALL-E is an AI assistant. It reads documents from a GitHub repo and responds in
 - [How Knowledge Embedding Works](#-how-knowledge-embedding-works)
 - [Built With](#-built-with)
 - [Author](#-author)
+- [License](#-license)
 
 ---
 
@@ -278,3 +279,8 @@ Latvia 🇱🇻 | Full-stack Developer
 🔗 [GitHub](https://github.com/reinisvaravs)
 
 ---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).  
+You're free to use, modify, and distribute it with attribution. Contributions are welcome!
