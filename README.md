@@ -3,7 +3,6 @@
 ![Node.js](https://img.shields.io/badge/Node.js-22.x-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Powered by](https://img.shields.io/badge/Powered_by-GPT--4o-blueviolet)
-![Status](https://img.shields.io/badge/status-live-success)
 ![RAG-Powered](https://img.shields.io/badge/RAG-Powered-blueviolet)
 ![Embedding](https://img.shields.io/badge/Embedding-pgvector-lightblue)
 
