@@ -19,7 +19,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Determine environment mode
-const safeMode = process.env.RENDER ? "prod" : "dev";
+const safeMode = process.env.DEV ? "dev" : "prod";
+console.log(`[safeMode: ${safeMode}]`);
 
 // Initialize Express app
 const app = express();
@@ -29,10 +30,8 @@ const PORT = process.env.PORT || 3000;
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
-      "https://discord-openai-bot-0vmd.onrender.com",
       "https://reinisvaravs.com",
-      "http://localhost:5173",
+      `${safeMode === "dev" && `http://localhost:${PORT}`}`,
     ],
   })
 );
