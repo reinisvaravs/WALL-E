@@ -131,7 +131,7 @@ GITHUB_TOKEN=your_github_token
 REPO_API_URL=https://api.github.com/repos/reinisvaravs/discord-bot-test-info/contents/
 PROMPT_PATH_URL=https://api.github.com/repos/reinisvaravs/wall-e-info/contents/walle-config/system-prompt.txt
 DATABASE_URL=postgres://username:password@host:port/db
-RENDER=true
+DEV=true
 ```
 
 > ⚠️ **Important:** Do not commit `.env` to GitHub. Add it to `.gitignore`.
